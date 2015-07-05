@@ -11,7 +11,7 @@ WHERE ST_Intersects(c.geom, sa2.geom)
 GROUP BY sa2.gid
 ;
 
-INSERT INTO category_values
+INSERT INTO category_values (gid,category_code,raw_value,description,value,geom)
 SELECT gid,'ABO_COMMS',0,'Indigenous towns and communities: 0',0,NULL
 FROM sa2_cutdown sa2
 WHERE gid not in (SELECT gid from category_values WHERE category_code='ABO_COMMS')

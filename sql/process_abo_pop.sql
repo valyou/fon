@@ -14,12 +14,27 @@ SELECT sa2.gid, 'POPULATION', pop.value,
 FROM raw_abo_pop pop, sa2_cutdown sa2 
 WHERE pop."REGION" = sa2.sa2_main11 AND pop."INGP" = 'TOT';
 
+-- pad null rows
+INSERT INTO category_values (gid,category_code,raw_value,description,value,geom)
+SELECT gid,'POPULATION',0,'Total population: 0',0,NULL
+FROM sa2_cutdown sa2
+WHERE gid not in (SELECT gid from category_values WHERE category_code='POPULATION')
+;
+
+
 DELETE FROM category_values WHERE category_code='ABO_POP';
 INSERT INTO category_values (gid,category_code,raw_value,description,value,geom)
 SELECT sa2.gid, 'ABO_POP', pop.value, 
-       'Aboriginal population = ' || pop.value || '. ', 
+       'Aboriginal population = ' || pop.value, 
        round(pop.value / 40.44), sa2.geom
 FROM raw_abo_pop pop, sa2_cutdown sa2 
 WHERE pop."REGION" = sa2.sa2_main11 AND pop."INGP" = '4';
+
+-- pad null rows
+INSERT INTO category_values (gid,category_code,raw_value,description,value,geom)
+SELECT gid,'ABO_POP',0,'Aboriginal population: 0',0,NULL
+FROM sa2_cutdown sa2
+WHERE gid not in (SELECT gid from category_values WHERE category_code='ABO_POP')
+;
 
 
