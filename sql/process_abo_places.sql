@@ -1,3 +1,6 @@
+INSERT INTO category VALUES ('INDIGENOUS', 'INDIGENOUS', 'Indigenous connections - people, sites, communities, native title, land usage');
+INSERT INTO category VALUES ('INDIGENOUS_PLACES', 'INDIGENOUS', 'Indigenous heritage sites');
+
 WITH weights AS (
   SELECT gid, 0.2 AS weight FROM raw_abo_places WHERE status='Stored Data / Not a Site'
   UNION ALL
